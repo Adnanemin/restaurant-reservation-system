@@ -33,6 +33,7 @@ public class Restaurant {
 
     private String country;
 
+    @Column(unique = true)
     private String phoneNumber;
 
     private LocalTime openingTime;
