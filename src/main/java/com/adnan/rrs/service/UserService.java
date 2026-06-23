@@ -1,11 +1,14 @@
 package com.adnan.rrs.service;
 
+import com.adnan.rrs.dto.LoginRequest;
 import com.adnan.rrs.dto.RegisterRequest;
 import com.adnan.rrs.repository.UserRepository;
 import com.adnan.rrs.entity.User;
 import com.adnan.rrs.entity.UserRole;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
 
@@ -38,5 +42,21 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);
+    }
+
+    public User loginUser(LoginRequest request){
+
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+
+        if(userOptional.isEmpty()){
+            throw new RuntimeException("Email not found");
+        }
+
+        User user = userOptional.get();
+        if(!user.getPassword().equals(request.getPassword())){
+            throw new RuntimeException("Invalid password");
+        }
+
+        return user;
     }
 }
