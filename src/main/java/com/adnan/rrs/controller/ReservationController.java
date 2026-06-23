@@ -3,10 +3,9 @@ package com.adnan.rrs.controller;
 import com.adnan.rrs.dto.CreateReservationRequest;
 import com.adnan.rrs.entity.Reservation;
 import com.adnan.rrs.service.ReservationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -21,5 +20,15 @@ public class ReservationController {
     @PostMapping
     public Reservation createReservation(@RequestBody CreateReservationRequest request) {
         return reservationService.createReservation(request);
+    }
+
+    @GetMapping("/pending")
+    public List<Reservation> getPendingReservations(){
+        return reservationService.getPendingReservations();
+    }
+
+    @PutMapping("/{id}/confirm")
+    public Reservation confirmReservation(@PathVariable Long id) {
+        return reservationService.confirmReservation(id);
     }
 }

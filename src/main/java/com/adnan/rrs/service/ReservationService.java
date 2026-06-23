@@ -11,6 +11,7 @@ import com.adnan.rrs.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -53,6 +54,23 @@ public class ReservationService {
         reservation.setSpecialRequest(request.getSpecialRequest());
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setCreatedAt(LocalDateTime.now());
+        return  reservationRepository.save(reservation);
+    }
+
+    public List<Reservation> getPendingReservations(){
+        return reservationRepository.findByStatus(ReservationStatus.PENDING);
+    }
+
+    public Reservation confirmReservation(Long reservationId){
+
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+        if(reservation.getStatus() != ReservationStatus.PENDING){
+            throw new RuntimeException("Only pending reservations can be confirmed");
+        }
+
+        reservation.setStatus(ReservationStatus.CONFIRMED);
+        reservation.setUpdatedAt(LocalDateTime.now());
         return  reservationRepository.save(reservation);
     }
 }
