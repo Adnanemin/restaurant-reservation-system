@@ -73,4 +73,41 @@ public class ReservationService {
         reservation.setUpdatedAt(LocalDateTime.now());
         return  reservationRepository.save(reservation);
     }
+
+    public Reservation cancelReservation(Long reservationId){
+
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+        if (reservation.getStatus() == ReservationStatus.COMPLETED){
+            throw new RuntimeException("Completed reservation can not be cancelled");
+        }
+        if (reservation.getStatus() == ReservationStatus.CANCELLED) {
+            throw new RuntimeException("Reservation is already cancelled");
+        }
+
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservation.setUpdatedAt(LocalDateTime.now());
+        return  reservationRepository.save(reservation);
+    }
+
+    public Reservation completeReservation(Long reservationId){
+
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+        if (reservation.getStatus() == ReservationStatus.PENDING){
+            throw new RuntimeException("Reservation must be confirmed first");
+        }
+
+        if  (reservation.getStatus() == ReservationStatus.CANCELLED) {
+            throw new RuntimeException("Cancelled reservation cannot be completed");
+        }
+
+        if (reservation.getStatus() == ReservationStatus.COMPLETED) {
+            throw new RuntimeException("Reservation is already completed");
+        }
+
+        reservation.setStatus(ReservationStatus.COMPLETED);
+        reservation.setUpdatedAt(LocalDateTime.now());
+        return  reservationRepository.save(reservation);
+    }
 }

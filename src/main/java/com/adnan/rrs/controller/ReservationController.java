@@ -31,4 +31,14 @@ public class ReservationController {
     public Reservation confirmReservation(@PathVariable Long id) {
         return reservationService.confirmReservation(id);
     }
+
+    @PutMapping("/{id}/complete")
+    public Reservation completeReservation(@PathVariable Long id) {
+        return reservationService.completeReservation(id);
+    }
+
+    @PutMapping("/{id}/cancel")
+    public Reservation cancelReservation(@PathVariable Long id) {
+        return reservationService.cancelReservation(id);
+    }
 }
