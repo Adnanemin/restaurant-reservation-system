@@ -41,4 +41,14 @@ public class ReservationController {
     public Reservation cancelReservation(@PathVariable Long id) {
         return reservationService.cancelReservation(id);
     }
+
+    @GetMapping("/user/{userId}")
+    public List<Reservation> getReservationsByUser(@PathVariable Long userId) {
+        return reservationService.getReservationsByUser(userId);
+    }
+
+    @PutMapping("/{reservationId}/cancel/user/{userId}")
+    public Reservation cancelOwnReservation(@PathVariable Long reservationId, @PathVariable Long userId) {
+        return reservationService.cancelOwnReservation(reservationId, userId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.adnan.rrs.repository;
 
+import com.adnan.rrs.entity.User;
 import com.adnan.rrs.entity.Reservation;
 import com.adnan.rrs.entity.RestaurantTable;
 import com.adnan.rrs.entity.ReservationStatus;
@@ -17,5 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             LocalTime reservationTime
     );
 
+    List<Reservation> findByUser(User user);
     List<Reservation> findByStatus(ReservationStatus status);
 }
