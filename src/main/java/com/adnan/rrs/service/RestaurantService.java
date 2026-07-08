@@ -5,7 +5,6 @@ import com.adnan.rrs.repository.RestaurantRepository;
 
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,7 +17,6 @@ public class RestaurantService {
 
     public Restaurant createRestaurant(Restaurant restaurant) {
 
-        restaurant.setCreatedAt(LocalDateTime.now());
         return restaurantRepository.save(restaurant);
     }
 

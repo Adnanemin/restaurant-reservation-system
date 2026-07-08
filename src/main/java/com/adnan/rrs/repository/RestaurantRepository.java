@@ -1,7 +1,19 @@
 package com.adnan.rrs.repository;
 
 import com.adnan.rrs.entity.Restaurant;
+import com.adnan.rrs.entity.User;
+import com.adnan.rrs.entity.RestaurantStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+
+    List<Restaurant> findByOwner(User owner);
+
+    List<Restaurant> findByStatus(RestaurantStatus status);
+
+    List<Restaurant> findByCityIgnoreCase(String city);
+
+    List<Restaurant> findByNameContainingIgnoreCase(String name);
 }

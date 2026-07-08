@@ -5,10 +5,7 @@ import com.adnan.rrs.dto.RegisterRequest;
 import com.adnan.rrs.entity.AccountType;
 import com.adnan.rrs.repository.UserRepository;
 import com.adnan.rrs.entity.User;
-import com.adnan.rrs.entity.RestaurantStatus;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -39,23 +36,32 @@ public class UserService {
         user.setPassword(request.getPassword());
         user.setPhoneNumber(request.getPhoneNumber());
 
-        user.setRole(AccountType.CUSTOMER);
-        user.setCreatedAt(LocalDateTime.now());
+        user.setAccountType(request.getAccountType());
+
+        if (request.getAccountType() == AccountType.ADMIN) {
+            throw new RuntimeException("Account type not allowed");
+        }
+
+        switch (request.getAccountType()){
+            case ADMIN       -> user.setEnabled(true);
+            case RESTAURANT  -> user.setEnabled(false);
+            case CUSTOMER    -> user.setEnabled(true);
+
+            default          -> throw new IllegalArgumentException("Invalid account type");
+        }
 
         return userRepository.save(user);
     }
 
     public User loginUser(LoginRequest request){
 
-        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
-
-        if(userOptional.isEmpty()){
-            throw new RuntimeException("Email not found");
-        }
-
-        User user = userOptional.get();
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("Email not found"));
         if(!user.getPassword().equals(request.getPassword())){
             throw new RuntimeException("Invalid password");
+        }
+
+        if (!user.isEnabled()) {
+            throw new RuntimeException("Your restaurant account is not active.");
         }
 
         return user;

@@ -8,17 +8,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/restaurants")
-public class RestaurantController {
+public class CreateRestaurantRequest {
 
     private final RestaurantService restaurantService;
 
-    public RestaurantController(RestaurantService restaurantService) {
+    public CreateRestaurantRequest(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
     @PostMapping
     public Restaurant createRestaurant(@RequestBody Restaurant restaurant) {
-        return restaurantService.createRestaurant(restaurant);
+        // TODO: After Spring Security is added, obtain the authenticated restaurant account.
+        // from the SecurityContext and pass it to the service.
+
+        throw new UnsupportedOperationException("Restaurant creation will be completed after JWT integration.");
     }
 
     @GetMapping

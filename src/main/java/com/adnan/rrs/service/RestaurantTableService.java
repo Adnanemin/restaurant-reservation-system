@@ -3,6 +3,7 @@ package com.adnan.rrs.service;
 import com.adnan.rrs.dto.CreateRestaurantTableRequest;
 import com.adnan.rrs.entity.Restaurant;
 import com.adnan.rrs.entity.RestaurantTable;
+import com.adnan.rrs.entity.User;
 import com.adnan.rrs.repository.RestaurantRepository;
 import com.adnan.rrs.repository.RestaurantTableRepository;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,11 @@ public class RestaurantTableService {
     }
 
     public RestaurantTable createTable(
-            CreateRestaurantTableRequest request
+            CreateRestaurantTableRequest request,
+            User authenticatedUser
     ) {
-        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId()).orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
+        // TODO: Get the restaurant from the authenticated restaurant (JWT) instead of receiving a restaurantId from the request.
         if(restaurantTableRepository.existsByRestaurantAndTableNumber(
                 restaurant,
                 request.getTableNumber())){
@@ -43,6 +45,7 @@ public class RestaurantTableService {
         return restaurantTableRepository.save(table);
     }
 
+    // TODO: Return only the tables that belong to the authenticated restaurant.
     public List<RestaurantTable> getAllTables() {
         return restaurantTableRepository.findAll();
     }

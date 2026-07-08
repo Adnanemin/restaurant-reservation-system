@@ -1,5 +1,6 @@
 package com.adnan.rrs.dto;
 
+import com.adnan.rrs.entity.AccountType;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
@@ -15,4 +16,6 @@ public class RegisterRequest {
     private String password;
 
     private String phoneNumber;
+
+    private AccountType accountType;
 }

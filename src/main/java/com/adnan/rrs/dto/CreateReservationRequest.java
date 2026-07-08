@@ -12,8 +12,7 @@ import java.time.LocalDate;
 
 public class CreateReservationRequest {
 
-    private Long userId;
-    private Long tableId;
+    private Long restaurantId;
 
     private LocalDate reservationDate;
     private LocalTime reservationTime;
