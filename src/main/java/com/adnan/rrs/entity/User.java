@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -31,7 +33,19 @@ public class User {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @Column(nullable = false)
+    private AccountType accountType;
+
+    private boolean enabled;
 
     private LocalDateTime createdAt;
+    @PrePersist
+    public void prePersist() {
+        if(createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Restaurant> restaurants = new ArrayList<>();
 }

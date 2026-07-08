@@ -3,9 +3,10 @@ package com.adnan.rrs.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -23,7 +24,6 @@ public class Restaurant {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
@@ -33,13 +33,33 @@ public class Restaurant {
 
     private String country;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String phoneNumber;
 
     private LocalTime openingTime;
     private LocalTime closingTime;
 
-    private boolean open;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RestaurantStatus status;
 
+    private Double latitude;
+    private Double longitude;
+
+    private String imageUrl;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<RestaurantTable> tables = new ArrayList<>();
 }

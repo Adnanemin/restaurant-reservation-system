@@ -3,6 +3,7 @@ package com.adnan.rrs.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Table(name = "restaurant_tables")
 @Getter
@@ -25,6 +26,9 @@ public class RestaurantTable {
     private String location;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+
+
 }

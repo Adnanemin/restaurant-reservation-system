@@ -2,9 +2,10 @@ package com.adnan.rrs.service;
 
 import com.adnan.rrs.dto.LoginRequest;
 import com.adnan.rrs.dto.RegisterRequest;
+import com.adnan.rrs.entity.AccountType;
 import com.adnan.rrs.repository.UserRepository;
 import com.adnan.rrs.entity.User;
-import com.adnan.rrs.entity.UserRole;
+import com.adnan.rrs.entity.RestaurantStatus;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class UserService {
         user.setPassword(request.getPassword());
         user.setPhoneNumber(request.getPhoneNumber());
 
-        user.setRole(UserRole.CUSTOMER);
+        user.setRole(AccountType.CUSTOMER);
         user.setCreatedAt(LocalDateTime.now());
 
         return userRepository.save(user);
