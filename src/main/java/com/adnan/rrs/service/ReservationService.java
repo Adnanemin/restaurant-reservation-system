@@ -1,10 +1,7 @@
 package com.adnan.rrs.service;
 
 import com.adnan.rrs.dto.CreateReservationRequest;
-import com.adnan.rrs.entity.Reservation;
-import com.adnan.rrs.entity.ReservationStatus;
-import com.adnan.rrs.entity.User;
-import com.adnan.rrs.entity.Restaurant;
+import com.adnan.rrs.entity.*;
 import com.adnan.rrs.repository.ReservationRepository;
 import com.adnan.rrs.repository.RestaurantRepository;
 import com.adnan.rrs.repository.UserRepository;
@@ -34,8 +31,16 @@ public class ReservationService {
 
     public Reservation createReservation(CreateReservationRequest request) {
 
-        // TODO: Obtain the authenticated customer from JWT.
-        throw new UnsupportedOperationException("Reservation creation will be completed after JWT integration.");
+        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId()).orElseThrow(() -> new RuntimeException("Restaurant not found."));
+
+        RestaurantTable assignedTable = tableAssignmentService.assignBestTable(
+                restaurant,
+                request.getReservationDate(),
+                request.getReservationTime(),
+                request.getNumberOfGuests()
+        );
+
+        // TODO: Get authenticated customer from the JWT.
     }
 
     public List<Reservation> getPendingReservations(){

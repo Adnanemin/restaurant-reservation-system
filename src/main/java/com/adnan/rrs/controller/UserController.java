@@ -1,6 +1,7 @@
 package com.adnan.rrs.controller;
 
 import com.adnan.rrs.dto.LoginRequest;
+import com.adnan.rrs.dto.LoginResponse;
 import com.adnan.rrs.dto.RegisterRequest;
 import com.adnan.rrs.entity.User;
 import com.adnan.rrs.service.UserService;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User loginUser(@RequestBody LoginRequest loginRequest) {
+    public LoginResponse loginUser(@RequestBody LoginRequest loginRequest) {
 
         return userService.loginUser(loginRequest);
     }
