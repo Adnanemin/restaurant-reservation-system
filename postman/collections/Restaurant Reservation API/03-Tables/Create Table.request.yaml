@@ -16,5 +16,5 @@ body:
 auth:
   type: bearer
   credentials:
-    token: ""
+    token: "{{restaurantToken}}"
 order: 1783737125664
