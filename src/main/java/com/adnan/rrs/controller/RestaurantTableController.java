@@ -3,6 +3,9 @@ package com.adnan.rrs.controller;
 import com.adnan.rrs.dto.CreateRestaurantTableRequest;
 import com.adnan.rrs.entity.RestaurantTable;
 import com.adnan.rrs.service.RestaurantTableService;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +22,13 @@ public class RestaurantTableController {
 
     @PostMapping
     public RestaurantTable createTable(
-            @RequestBody CreateRestaurantTableRequest request
+            @RequestBody CreateRestaurantTableRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
     ){
-        return restaurantTableService.createTable(request);
+        return restaurantTableService.createTable(
+                request,
+                userDetails.getUsername()
+        );
     }
 
     @GetMapping

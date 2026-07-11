@@ -5,6 +5,9 @@ import com.adnan.rrs.entity.Reservation;
 import com.adnan.rrs.service.ReservationService;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.List;
 
 @RestController
@@ -18,8 +21,14 @@ public class ReservationController {
     }
 
     @PostMapping
-    public Reservation createReservation(@RequestBody CreateReservationRequest request) {
-        return reservationService.createReservation(request);
+    public Reservation createReservation(
+            @RequestBody CreateReservationRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return reservationService.createReservation(
+                request,
+                userDetails.getUsername()
+        );
     }
 
     @GetMapping("/pending")

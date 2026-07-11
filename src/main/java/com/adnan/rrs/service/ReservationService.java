@@ -29,9 +29,16 @@ public class ReservationService {
         this.tableAssignmentService = tableAssignmentService;
     }
 
-    public Reservation createReservation(CreateReservationRequest request) {
+    public Reservation createReservation(
+            CreateReservationRequest request,
+            String userEmail
+    ) {
 
-        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId()).orElseThrow(() -> new RuntimeException("Restaurant not found."));
+        User authenticatedUser = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
+                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
         RestaurantTable assignedTable = tableAssignmentService.assignBestTable(
                 restaurant,
@@ -40,7 +47,17 @@ public class ReservationService {
                 request.getNumberOfGuests()
         );
 
-        // TODO: Get authenticated customer from the JWT.
+        Reservation reservation = new Reservation();
+
+        reservation.setUser(authenticatedUser);
+        reservation.setRestaurant(restaurant);
+        reservation.setTable(assignedTable);
+        reservation.setReservationDate(request.getReservationDate());
+        reservation.setReservationTime(request.getReservationTime());
+        reservation.setNumberOfGuests(request.getNumberOfGuests());
+        reservation.setStatus(ReservationStatus.PENDING);
+
+        return reservationRepository.save(reservation);
     }
 
     public List<Reservation> getPendingReservations(){
@@ -49,7 +66,8 @@ public class ReservationService {
 
     public Reservation confirmReservation(Long reservationId){
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
         if(reservation.getStatus() != ReservationStatus.PENDING){
             throw new RuntimeException("Only pending reservations can be confirmed");
@@ -61,7 +79,8 @@ public class ReservationService {
 
     public Reservation cancelReservation(Long reservationId){
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
         if (reservation.getStatus() == ReservationStatus.COMPLETED){
             throw new RuntimeException("Completed reservation can not be cancelled");
@@ -76,7 +95,8 @@ public class ReservationService {
 
     public Reservation completeReservation(Long reservationId){
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
         if (reservation.getStatus() == ReservationStatus.PENDING){
             throw new RuntimeException("Reservation must be confirmed first");
@@ -96,13 +116,15 @@ public class ReservationService {
 
     public List<Reservation> getReservationsByUser(Long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return reservationRepository.findByUser(user);
     }
 
     public Reservation cancelOwnReservation(Long reservationId, Long userId) {
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
         if(!reservation.getUser().getId().equals(userId)){
             throw new RuntimeException("You can only cancel your own reservation");

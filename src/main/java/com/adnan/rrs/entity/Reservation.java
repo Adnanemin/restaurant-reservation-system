@@ -60,6 +60,9 @@ public class Reservation {
     private User user;
 
     @ManyToOne
+    private Restaurant restaurant;
+
+    @ManyToOne
     @JoinColumn(name = "table_id", nullable = false)
     private RestaurantTable table;
 }

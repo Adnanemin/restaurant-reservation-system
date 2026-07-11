@@ -4,8 +4,10 @@ import com.adnan.rrs.dto.CreateRestaurantTableRequest;
 import com.adnan.rrs.entity.Restaurant;
 import com.adnan.rrs.entity.RestaurantTable;
 import com.adnan.rrs.entity.User;
+import com.adnan.rrs.repository.UserRepository;
 import com.adnan.rrs.repository.RestaurantRepository;
 import com.adnan.rrs.repository.RestaurantTableRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,21 +17,34 @@ public class RestaurantTableService {
 
     private final RestaurantTableRepository restaurantTableRepository;
     private final RestaurantRepository restaurantRepository;
+    private final UserRepository userRepository;
 
     public RestaurantTableService(
             RestaurantTableRepository restaurantTableRepository,
-            RestaurantRepository restaurantRepository
+            RestaurantRepository restaurantRepository,
+            UserRepository userRepository
     ){
         this.restaurantTableRepository = restaurantTableRepository;
         this.restaurantRepository = restaurantRepository;
+        this.userRepository = userRepository;
     }
 
     public RestaurantTable createTable(
             CreateRestaurantTableRequest request,
-            User authenticatedUser
+            String userEmail
     ) {
+        User authenticatedUser = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<Restaurant> restaurants = restaurantRepository.findByOwner(authenticatedUser);
 
-        // TODO: Get the restaurant from the authenticated restaurant (JWT) instead of receiving a restaurantId from the request.
+        if (restaurants.isEmpty()) {
+            throw new RuntimeException("Restaurant not found");
+        }
+
+        // TODO: When multiple restaurants per owner are supported in the UI,
+        // use the selected restaurant instead of restaurants.get(0).
+        Restaurant restaurant = restaurants.get(0);
+
         if(restaurantTableRepository.existsByRestaurantAndTableNumber(
                 restaurant,
                 request.getTableNumber())){
