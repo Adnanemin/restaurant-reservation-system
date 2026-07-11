@@ -1,0 +1,20 @@
+$kind: http-request
+name: Create Table
+description: Creates a new table for the authenticated restaurant.
+url: "{{baseUrl}}/api/tables"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "tableNumber": 1,
+        "capacity": 4,
+        "location": "Indoor"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: ""
+order: 1783737125664

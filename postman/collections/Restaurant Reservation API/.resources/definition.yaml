@@ -1,0 +1,74 @@
+$kind: collection
+name: Restaurant Reservation API
+description: |-
+  # Restaurant Reservation System API
+
+  This Postman collection contains all REST API endpoints developed for the Restaurant Reservation System project.
+
+  The API supports:
+
+  • User authentication (Customer & Restaurant)  
+  • Restaurant management  
+  • Restaurant table management  
+  • Reservation management  
+  • Administrative operations (future implementation)
+
+  ## Authentication
+
+  Customer and Restaurant login requests automatically store the returned JWT tokens in the active Postman environment.
+
+  Environment variables used:
+
+  - baseUrl
+      
+  - customerToken
+      
+  - restaurantToken
+      
+
+  ## Testing Order
+
+  1. Register Customer
+      
+  2. Register Restaurant
+      
+  3. Login Customer
+      
+  4. Login Restaurant
+      
+  5. Create Restaurant
+      
+  6. Create Table
+      
+  7. Get Tables
+      
+  8. Create Reservation
+      
+
+  ## Requirements
+
+  - Spring Boot application must be running.
+      
+  - MySQL database must be available.
+      
+  - The active Postman environment should contain valid values for:
+      
+      - baseUrl
+          
+      - customerToken
+          
+      - restaurantToken
+          
+
+  This collection is maintained together with the project and is intended for development, testing, and demonstration purposes.
+auth:
+  - id: 826ac31c-6aad-4006-b9bd-8eed54ef7d77
+    type: bearer
+    name: customerToken
+    credentials:
+      token: "{{customerToken}}"
+  - id: cd2a3100-6c52-4c4e-bc09-854f6ace6835
+    type: bearer
+    name: restaurantToken
+    credentials:
+      token: "{{restaurantToken}}"

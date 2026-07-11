@@ -1,0 +1,18 @@
+$kind: http-request
+name: Register Restaurant
+description: Registers a new restaurant owner account. Newly created restaurant accounts require approval before they can access restaurant management features.
+url: "{{baseUrl}}/api/users/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "name": "Pizza Palace Owner",
+        "email": "restaurant@test.com",
+        "password": "123456",
+        "phoneNumber": "5554445566",
+        "accountType": "RESTAURANT"
+    }
+order: 1210576033666736

@@ -1,0 +1,15 @@
+$kind: http-request
+name: Get Tables
+description: Retrieves all tables belonging to the authenticated restaurant.
+url: "{{baseUrl}}/api/tables"
+method: GET
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{restaurantToken}}"
+order: 2890238413156215

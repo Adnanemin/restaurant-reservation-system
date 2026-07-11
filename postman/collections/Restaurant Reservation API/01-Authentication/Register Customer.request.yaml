@@ -1,0 +1,18 @@
+$kind: http-request
+name: Register Customer
+description: Registers a new customer account in the system. A successful registration allows the customer to log in and make restaurant reservations.
+url: "{{baseUrl}}/api/users/register"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "name": "Adnan Customer",
+        "email": "customer@test.com",
+        "password": "123456",
+        "phoneNumber": "5551112233",
+        "accountType": "CUSTOMER"
+    }
+order: 1783736068258

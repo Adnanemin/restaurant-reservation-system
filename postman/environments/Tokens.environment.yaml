@@ -1,0 +1,9 @@
+name: Tokens
+values:
+  - key: customerToken
+    secret: true
+  - key: restaurantToken
+    secret: true
+  - key: baseUrl
+    value: ''
+color: 0

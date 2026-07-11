@@ -1,0 +1,4 @@
+$kind: collection
+name: Restaurants
+description: |-
+  Covers restaurant management operations. Contains requests for creating and managing restaurant profiles, including details such as name, address, location coordinates, contact information, and operating hours. Requires a valid restaurant owner bearer token.

@@ -1,0 +1,4 @@
+$kind: collection
+name: Testing
+description: |-
+  Contains utility and end-to-end test requests used for validating the API's overall behavior. This folder is intended for integration tests, smoke tests, and any ad-hoc requests used during development and QA.

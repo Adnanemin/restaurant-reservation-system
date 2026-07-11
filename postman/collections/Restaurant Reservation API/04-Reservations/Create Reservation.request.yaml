@@ -1,0 +1,22 @@
+$kind: http-request
+name: Create Reservation
+description: Creates a new reservation for the authenticated customer at the selected restaurant.
+url: "{{baseUrl}}/api/reservations"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "restaurantId": 1,
+        "reservationDate": "2026-07-15",
+        "reservationTime": "19:00:00",
+        "numberOfGuests": 4,
+        "specialRequest": "Window seat if possible"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+order: 1783737279904

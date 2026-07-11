@@ -1,0 +1,4 @@
+$kind: collection
+name: Reservations
+description: |-
+  Handles the core reservation workflow for customers. Contains requests to create new table reservations by specifying the restaurant, date, time, number of guests, and any special requests. Requires a valid customer bearer token.

@@ -1,0 +1,4 @@
+$kind: collection
+name: Admin
+description: |-
+  Reserved for administrative operations. This folder will contain privileged requests for managing users, restaurants, and reservations at a system level.

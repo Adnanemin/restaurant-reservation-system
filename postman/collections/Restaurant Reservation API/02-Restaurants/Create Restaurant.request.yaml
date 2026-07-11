@@ -1,0 +1,27 @@
+$kind: http-request
+name: Create Restaurant
+description: Creates a new restaurant profile for the authenticated restaurant owner.
+url: "{{baseUrl}}/api/restaurants"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "name": "Pizza Palace Messina",
+        "description": "Traditional Italian Pizza",
+        "address": "Via Garibaldi 120",
+        "city": "Messina",
+        "country": "Italy",
+        "phoneNumber": "390901234567",
+        "latitude": 38.1938,
+        "longitude": 15.5540,
+        "openingTime": "09:00:00",
+        "closingTime": "23:00:00"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{restaurantToken}}"
+order: 1783736830744

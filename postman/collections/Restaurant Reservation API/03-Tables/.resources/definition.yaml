@@ -1,0 +1,4 @@
+$kind: collection
+name: Tables
+description: |-
+  Manages table resources within a restaurant. Contains requests to create new tables with details like table number, seating capacity, and location (e.g. Indoor/Outdoor), as well as retrieve existing tables. All requests require a valid restaurant owner bearer token.

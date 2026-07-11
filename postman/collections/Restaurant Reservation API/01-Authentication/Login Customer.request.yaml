@@ -1,0 +1,25 @@
+$kind: http-request
+name: Login Customer
+description: Authenticates a customer using email and password. On success, returns a JWT token used to access customer-protected endpoints.
+url: "{{baseUrl}}/api/users/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "email": "customer@test.com",
+        "password": "123456"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      const response = pm.response.json();
+      pm.environment.set("customerToken", response.token);
+    language: text/javascript
+order: 2928518763010883
